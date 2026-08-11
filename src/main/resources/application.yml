@@ -1,0 +1,45 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: ortocitas
+
+  datasource:
+    # JPA usa este DataSource. En Supabase se recomienda Session Pooler (puerto 5432)
+    # para un backend Spring persistente. Copia DB_URL desde Supabase > Connect.
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:10}
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION_MS:28800000}
+
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
+
+  bootstrap-admin:
+    # Opcional: si defines ADMIN_CEDULA y ADMIN_PASSWORD, se crea el admin
+    # automáticamente la primera vez. La contraseña se almacena con BCrypt.
+    cedula: ${ADMIN_CEDULA:}
+    nombres: ${ADMIN_NOMBRES:Administrador}
+    apellidos: ${ADMIN_APELLIDOS:Sistema}
+    password: ${ADMIN_PASSWORD:}
+
+logging:
+  level:
+    org.springframework.security: INFO
