@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-import java.util.UUID;
 
 public record RegistrarCitaRequest(
         @NotBlank(message = "La cédula es obligatoria")
@@ -20,5 +19,5 @@ public record RegistrarCitaRequest(
         String telefono,
 
         @NotNull(message = "Debe seleccionar un horario disponible")
-        UUID horarioId
+        Long horarioId
 ) {}

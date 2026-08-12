@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Endpoints exclusivos del rol ADMIN: CRUD de odontólogos y de precios/servicios.
@@ -43,7 +42,7 @@ public class AdminController {
     }
 
     @PutMapping("/servicios/{id}")
-    public ResponseEntity<Servicio> actualizarServicio(@PathVariable UUID id, @RequestBody Servicio cambios) {
+    public ResponseEntity<Servicio> actualizarServicio(@PathVariable Long id, @RequestBody Servicio cambios) {
         Servicio servicio = servicioRepository.findById(id)
                 .orElseThrow(() -> new java.util.NoSuchElementException("Servicio no encontrado"));
         servicio.setNombre(cambios.getNombre());
@@ -53,7 +52,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/servicios/{id}")
-    public ResponseEntity<Void> eliminarServicio(@PathVariable UUID id) {
+    public ResponseEntity<Void> eliminarServicio(@PathVariable Long id) {
         Servicio servicio = servicioRepository.findById(id)
                 .orElseThrow(() -> new java.util.NoSuchElementException("Servicio no encontrado"));
         servicio.setActivo(false);
@@ -80,13 +79,13 @@ public class AdminController {
 
     @PutMapping("/odontologos/{id}")
     public ResponseEntity<Usuario> actualizarOdontologo(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @Valid @RequestBody PersonalDTO dto) {
         return ResponseEntity.ok(usuarioService.actualizar(id, "ODONTOLOGO", dto));
     }
 
     @DeleteMapping("/odontologos/{id}")
-    public ResponseEntity<Void> eliminarOdontologo(@PathVariable UUID id) {
+    public ResponseEntity<Void> eliminarOdontologo(@PathVariable Long id) {
         usuarioService.eliminar(id, "ODONTOLOGO");
         return ResponseEntity.noContent().build();
     }

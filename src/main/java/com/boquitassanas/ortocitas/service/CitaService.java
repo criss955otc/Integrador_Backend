@@ -12,7 +12,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -67,7 +66,7 @@ public class CitaService {
     }
 
     @Transactional
-    public List<HorarioDisponible> habilitarHorarios(UUID odontologoId, HabilitarHorariosRequest request) {
+    public List<HorarioDisponible> habilitarHorarios(Long odontologoId, HabilitarHorariosRequest request) {
         Usuario odontologo = usuarioRepository.findById(odontologoId)
                 .orElseThrow(() -> new NoSuchElementException("Odontólogo no encontrado"));
 
@@ -97,7 +96,7 @@ public class CitaService {
     }
 
     @Transactional
-    public HorarioDisponible actualizarHorario(UUID horarioId, String nuevoEstado) {
+    public HorarioDisponible actualizarHorario(Long horarioId, String nuevoEstado) {
         HorarioDisponible horario = obtenerHorario(horarioId);
 
         if (horario.getFecha().isBefore(LocalDate.now())) {
@@ -109,7 +108,7 @@ public class CitaService {
     }
 
     @Transactional
-    public void eliminarHorario(UUID horarioId) {
+    public void eliminarHorario(Long horarioId) {
         HorarioDisponible horario = obtenerHorario(horarioId);
 
         if (horario.getFecha().isBefore(LocalDate.now())) {
@@ -122,7 +121,7 @@ public class CitaService {
     }
 
     @Transactional(readOnly = true)
-    public List<HorarioDisponible> horariosDeOdontologo(UUID odontologoId, LocalDate fecha) {
+    public List<HorarioDisponible> horariosDeOdontologo(Long odontologoId, LocalDate fecha) {
         return horarioRepository.findByOdontologoIdAndFechaOrderByHoraInicioAsc(odontologoId, fecha);
     }
 
@@ -137,7 +136,7 @@ public class CitaService {
     }
 
     @Transactional(readOnly = true)
-    public Cita obtenerPorId(UUID citaId) {
+    public Cita obtenerPorId(Long citaId) {
         return citaRepository.findById(citaId)
                 .orElseThrow(() -> new NoSuchElementException("Cita no encontrada"));
     }
@@ -183,7 +182,7 @@ public class CitaService {
     }
 
     @Transactional
-    public Cita actualizarCita(UUID citaId, ActualizarCitaRequest request) {
+    public Cita actualizarCita(Long citaId, ActualizarCitaRequest request) {
         Cita cita = obtenerPorId(citaId);
 
         if (request.nuevoHorarioId() != null && !request.nuevoHorarioId().equals(cita.getHorario().getId())) {
@@ -222,14 +221,14 @@ public class CitaService {
     }
 
     @Transactional
-    public Cita cambiarEstado(UUID citaId, String nuevoEstado) {
+    public Cita cambiarEstado(Long citaId, String nuevoEstado) {
         Cita cita = obtenerPorId(citaId);
         cita.setEstado(estadoCita(nuevoEstado));
         return citaRepository.save(cita);
     }
 
     @Transactional
-    public void eliminarCita(UUID citaId) {
+    public void eliminarCita(Long citaId) {
         Cita cita = obtenerPorId(citaId);
         HorarioDisponible horario = cita.getHorario();
         horario.setEstado(estadoHorario("DISPONIBLE"));
@@ -237,7 +236,7 @@ public class CitaService {
         citaRepository.delete(cita);
     }
 
-    private HorarioDisponible obtenerHorario(UUID id) {
+    private HorarioDisponible obtenerHorario(Long id) {
         return horarioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Horario no encontrado"));
     }

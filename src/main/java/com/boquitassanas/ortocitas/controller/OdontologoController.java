@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 /**
  * Endpoints exclusivos para el rol ODONTOLOGO (y ADMIN, que hereda estos permisos).
@@ -53,19 +52,19 @@ public class OdontologoController {
     }
 
     @GetMapping("/pacientes/{pacienteId}")
-    public ResponseEntity<Paciente> obtenerPaciente(@PathVariable UUID pacienteId) {
+    public ResponseEntity<Paciente> obtenerPaciente(@PathVariable Long pacienteId) {
         return ResponseEntity.ok(pacienteService.obtenerPorId(pacienteId));
     }
 
     @PutMapping("/pacientes/{pacienteId}")
     public ResponseEntity<Paciente> actualizarPaciente(
-            @PathVariable UUID pacienteId,
+            @PathVariable Long pacienteId,
             @Valid @RequestBody PacienteDTO dto) {
         return ResponseEntity.ok(pacienteService.actualizarPaciente(pacienteId, dto));
     }
 
     @DeleteMapping("/pacientes/{pacienteId}")
-    public ResponseEntity<Void> eliminarPaciente(@PathVariable UUID pacienteId) {
+    public ResponseEntity<Void> eliminarPaciente(@PathVariable Long pacienteId) {
         pacienteService.eliminar(pacienteId);
         return ResponseEntity.noContent().build();
     }
@@ -76,7 +75,7 @@ public class OdontologoController {
     }
 
     @GetMapping("/pacientes/{pacienteId}/historial")
-    public ResponseEntity<List<Cita>> historialPaciente(@PathVariable UUID pacienteId) {
+    public ResponseEntity<List<Cita>> historialPaciente(@PathVariable Long pacienteId) {
         return ResponseEntity.ok(citaRepository.findByPacienteIdOrderByCreadoEnDesc(pacienteId));
     }
 
@@ -98,13 +97,13 @@ public class OdontologoController {
 
     @PatchMapping("/horarios/{horarioId}")
     public ResponseEntity<HorarioDisponible> actualizarHorario(
-            @PathVariable UUID horarioId,
+            @PathVariable Long horarioId,
             @RequestParam String estado) {
         return ResponseEntity.ok(citaService.actualizarHorario(horarioId, estado));
     }
 
     @DeleteMapping("/horarios/{horarioId}")
-    public ResponseEntity<Void> eliminarHorario(@PathVariable UUID horarioId) {
+    public ResponseEntity<Void> eliminarHorario(@PathVariable Long horarioId) {
         citaService.eliminarHorario(horarioId);
         return ResponseEntity.noContent().build();
     }
@@ -132,32 +131,32 @@ public class OdontologoController {
     }
 
     @GetMapping("/citas/{citaId}")
-    public ResponseEntity<Cita> obtenerCita(@PathVariable UUID citaId) {
+    public ResponseEntity<Cita> obtenerCita(@PathVariable Long citaId) {
         return ResponseEntity.ok(citaService.obtenerPorId(citaId));
     }
 
     @PutMapping("/citas/{citaId}")
     public ResponseEntity<Cita> actualizarCita(
-            @PathVariable UUID citaId,
+            @PathVariable Long citaId,
             @RequestBody ActualizarCitaRequest request) {
         return ResponseEntity.ok(citaService.actualizarCita(citaId, request));
     }
 
     @PatchMapping("/citas/{citaId}/estado")
     public ResponseEntity<Cita> cambiarEstadoCita(
-            @PathVariable UUID citaId,
+            @PathVariable Long citaId,
             @Valid @RequestBody CambiarEstadoCitaRequest request) {
         return ResponseEntity.ok(citaService.cambiarEstado(citaId, request.nuevoEstado()));
     }
 
     @DeleteMapping("/citas/{citaId}")
-    public ResponseEntity<Void> eliminarCita(@PathVariable UUID citaId) {
+    public ResponseEntity<Void> eliminarCita(@PathVariable Long citaId) {
         citaService.eliminarCita(citaId);
         return ResponseEntity.noContent().build();
     }
 
     // authentication.getName() es la cédula (subject del JWT); se resuelve el id real del odontólogo.
-    private UUID idOdontologoAutenticado(Authentication authentication) {
+    private Long idOdontologoAutenticado(Authentication authentication) {
         return usuarioRepository.findByCedulaAndActivoTrue(authentication.getName())
                 .orElseThrow(() -> new NoSuchElementException("Usuario autenticado no encontrado"))
                 .getId();

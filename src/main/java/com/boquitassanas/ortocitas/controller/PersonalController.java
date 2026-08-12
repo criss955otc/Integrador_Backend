@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * CRUD de cuentas de secretaria. Vive en una ruta separada (/api/personal) porque, a
@@ -41,13 +40,13 @@ public class PersonalController {
 
     @PutMapping("/secretarias/{id}")
     public ResponseEntity<Usuario> actualizarSecretaria(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @Valid @RequestBody PersonalDTO dto) {
         return ResponseEntity.ok(usuarioService.actualizar(id, "SECRETARIA", dto));
     }
 
     @DeleteMapping("/secretarias/{id}")
-    public ResponseEntity<Void> eliminarSecretaria(@PathVariable UUID id) {
+    public ResponseEntity<Void> eliminarSecretaria(@PathVariable Long id) {
         usuarioService.eliminar(id, "SECRETARIA");
         return ResponseEntity.noContent().build();
     }

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +33,7 @@ public class PacienteService {
     }
 
     @Transactional
-    public Paciente actualizarPaciente(UUID pacienteId, PacienteDTO dto) {
+    public Paciente actualizarPaciente(Long pacienteId, PacienteDTO dto) {
         Paciente paciente = pacienteRepository.findById(pacienteId)
                 .orElseThrow(() -> new NoSuchElementException("Paciente no encontrado"));
 
@@ -54,7 +53,7 @@ public class PacienteService {
     }
 
     @Transactional(readOnly = true)
-    public Paciente obtenerPorId(UUID pacienteId) {
+    public Paciente obtenerPorId(Long pacienteId) {
         return pacienteRepository.findById(pacienteId)
                 .orElseThrow(() -> new NoSuchElementException("Paciente no encontrado"));
     }
@@ -66,7 +65,7 @@ public class PacienteService {
     }
 
     @Transactional
-    public void eliminar(UUID pacienteId) {
+    public void eliminar(Long pacienteId) {
         if (!pacienteRepository.existsById(pacienteId)) {
             throw new NoSuchElementException("Paciente no encontrado");
         }

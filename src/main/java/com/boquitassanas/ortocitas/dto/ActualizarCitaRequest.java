@@ -1,10 +1,9 @@
 package com.boquitassanas.ortocitas.dto;
 
-import java.util.UUID;
 
 public record ActualizarCitaRequest(
-        UUID nuevoHorarioId,
-        UUID servicioId,
+        Long nuevoHorarioId,
+        Long servicioId,
         String estado,
         String notas
 ) {}

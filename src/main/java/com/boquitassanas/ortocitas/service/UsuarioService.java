@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -54,7 +53,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario actualizar(UUID id, String codigoRol, PersonalDTO dto) {
+    public Usuario actualizar(Long id, String codigoRol, PersonalDTO dto) {
         Usuario usuario = obtenerPorIdYRol(id, codigoRol);
 
         if (!usuario.getCedula().equals(dto.cedula()) && usuarioRepository.findByCedulaAndActivoTrue(dto.cedula()).isPresent()) {
@@ -78,7 +77,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void eliminar(UUID id, String codigoRol) {
+    public void eliminar(Long id, String codigoRol) {
         Usuario usuario = obtenerPorIdYRol(id, codigoRol);
         usuario.setActivo(false);
         usuarioRepository.save(usuario);
@@ -101,7 +100,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new NoSuchElementException("Rol no encontrado: " + codigoRol));
     }
 
-    private Usuario obtenerPorIdYRol(UUID id, String codigoRol) {
+    private Usuario obtenerPorIdYRol(Long id, String codigoRol) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 

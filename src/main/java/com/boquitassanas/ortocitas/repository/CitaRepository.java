@@ -5,12 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-public interface CitaRepository extends JpaRepository<Cita, UUID> {
+public interface CitaRepository extends JpaRepository<Cita, Long> {
     List<Cita> findByEstado_CodigoIgnoreCaseOrderByHorario_FechaAscHorario_HoraInicioAsc(String estadoCodigo);
 
-    List<Cita> findByPacienteIdOrderByCreadoEnDesc(UUID pacienteId);
+    List<Cita> findByPacienteIdOrderByCreadoEnDesc(Long pacienteId);
 
     Optional<Cita> findFirstByPaciente_CedulaAndEstado_CodigoIgnoreCaseOrderByHorario_FechaAsc(
             String cedula, String estadoCodigo);

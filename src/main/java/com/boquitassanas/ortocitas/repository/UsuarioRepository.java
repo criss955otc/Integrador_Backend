@@ -5,9 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByCedulaAndActivoTrue(String cedula);
 
     List<Usuario> findByRol_CodigoIgnoreCaseAndActivoTrueOrderByApellidosAscNombresAsc(String rolCodigo);
@@ -15,7 +14,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     List<Usuario> findByRol_CodigoIgnoreCaseAndActivoTrueAndNombresContainingIgnoreCaseOrRol_CodigoIgnoreCaseAndActivoTrueAndApellidosContainingIgnoreCase(
             String rolCodigo1, String nombres, String rolCodigo2, String apellidos);
 
-    boolean existsByCedulaAndIdNot(String cedula, UUID id);
+    boolean existsByCedulaAndIdNot(String cedula, Long id);
     boolean existsByEmailIgnoreCase(String email);
-    boolean existsByEmailIgnoreCaseAndIdNot(String email, UUID id);
+    boolean existsByEmailIgnoreCaseAndIdNot(String email, Long id);
 }

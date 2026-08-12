@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Endpoints para el rol SECRETARIA: CRUD completo de Citas y búsqueda de pacientes
@@ -53,26 +52,26 @@ public class SecretariaController {
     }
 
     @GetMapping("/citas/{citaId}")
-    public ResponseEntity<Cita> obtenerCita(@PathVariable UUID citaId) {
+    public ResponseEntity<Cita> obtenerCita(@PathVariable Long citaId) {
         return ResponseEntity.ok(citaService.obtenerPorId(citaId));
     }
 
     @PutMapping("/citas/{citaId}")
     public ResponseEntity<Cita> actualizarCita(
-            @PathVariable UUID citaId,
+            @PathVariable Long citaId,
             @RequestBody ActualizarCitaRequest request) {
         return ResponseEntity.ok(citaService.actualizarCita(citaId, request));
     }
 
     @PatchMapping("/citas/{citaId}/estado")
     public ResponseEntity<Cita> cambiarEstadoCita(
-            @PathVariable UUID citaId,
+            @PathVariable Long citaId,
             @Valid @RequestBody CambiarEstadoCitaRequest request) {
         return ResponseEntity.ok(citaService.cambiarEstado(citaId, request.nuevoEstado()));
     }
 
     @DeleteMapping("/citas/{citaId}")
-    public ResponseEntity<Void> eliminarCita(@PathVariable UUID citaId) {
+    public ResponseEntity<Void> eliminarCita(@PathVariable Long citaId) {
         citaService.eliminarCita(citaId);
         return ResponseEntity.noContent().build();
     }

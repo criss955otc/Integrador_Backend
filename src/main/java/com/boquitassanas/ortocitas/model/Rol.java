@@ -3,7 +3,6 @@ package com.boquitassanas.ortocitas.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
 
 @Entity
 @Table(name = "rol_usuario")
@@ -14,8 +13,8 @@ import java.util.UUID;
 @Builder
 public class Rol {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 30)
     private String codigo;

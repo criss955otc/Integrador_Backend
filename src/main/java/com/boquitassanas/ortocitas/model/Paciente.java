@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "pacientes")
@@ -16,8 +15,8 @@ import java.util.UUID;
 @Builder
 public class Paciente {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 10)
     private String cedula;

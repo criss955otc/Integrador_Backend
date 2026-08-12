@@ -6,7 +6,6 @@ import lombok.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "horarios_disponibles")
@@ -17,8 +16,8 @@ import java.util.UUID;
 @Builder
 public class HorarioDisponible {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "odontologo_id", nullable = false)
